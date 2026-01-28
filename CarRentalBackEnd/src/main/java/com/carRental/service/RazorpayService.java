@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.razorpay.Order;
 import com.razorpay.RazorpayClient;
+import com.razorpay.Utils;
 
 @Service
 public class RazorpayService {
@@ -28,5 +29,19 @@ public class RazorpayService {
         Order order = razorpayClient.orders.create(orderRequest);
 
         return order.toString();
+    }
+
+    public boolean verifySignature(String orderId, String paymentId, String signature) {
+        try {
+            JSONObject options = new JSONObject();
+            options.put("razorpay_order_id", orderId);
+            options.put("razorpay_payment_id", paymentId);
+            options.put("razorpay_signature", signature);
+
+            return Utils.verifyPaymentSignature(options, apiSecret);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }
