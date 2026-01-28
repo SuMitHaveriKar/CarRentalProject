@@ -109,6 +109,14 @@ public class CarServiceImpl implements CarService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<CarDTO> searchAvailableCars(String city, java.time.LocalDate pickupDate, java.time.LocalDate dropDate) {
+        return carRepository.findAvailableCars(city, pickupDate, dropDate)
+                .stream()
+                .map(this::mapToDTO)
+                .collect(Collectors.toList());
+    }
+
     /* ================= MAPPER ================= */
 
     private CarDTO mapToDTO(Car car) {

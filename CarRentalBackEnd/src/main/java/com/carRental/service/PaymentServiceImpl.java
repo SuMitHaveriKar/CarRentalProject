@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.carRental.dto.PaymentDTO;
 import com.carRental.dto.PaymentOrderDTO;
+import com.carRental.entity.Booking;
 import com.carRental.entity.Payment;
 import com.carRental.entity.PaymentStatus;
 import com.carRental.repository.BookingRepository;
@@ -28,8 +29,15 @@ public class PaymentServiceImpl implements PaymentService {
     public PaymentDTO makePayment(PaymentOrderDTO paymentOrderDTO) {
         Payment payment = modelMapper.map(paymentOrderDTO, Payment.class);
         if (paymentOrderDTO.getBookingId() != null) {
-            payment.setBooking(bookingRepository.findById(Long.valueOf(paymentOrderDTO.getBookingId()))
-                    .orElseThrow(() -> new RuntimeException("Booking not found")));
+            Booking booking = bookingRepository.findById(Long.valueOf(paymentOrderDTO.getBookingId()))
+                    .orElseThrow(() -> new RuntimeException("Booking not found"));
+
+            // Strict payment check
+            if (booking.getBookingStatus() != com.carRental.entity.BookingStatus.CONFIRMED) {
+                throw new RuntimeException("Booking must be confirmed before payment.");
+            }
+            payment.setBooking(booking);
+            // Update booking payment status on success (done below)
         }
 
         if (paymentOrderDTO.getRazorpayPaymentId() != null) {
@@ -39,13 +47,26 @@ public class PaymentServiceImpl implements PaymentService {
                     paymentOrderDTO.getRazorpaySignature());
 
             if (!isVerified) {
+                payment.setPaymentStatus(PaymentStatus.FAILED); // Set status to failed
                 throw new RuntimeException("Payment verification failed");
             }
             payment.setRazorpayPaymentId(paymentOrderDTO.getRazorpayPaymentId());
             payment.setRazorpayOrderId(paymentOrderDTO.getRazorpayOrderId());
             payment.setPaymentStatus(PaymentStatus.SUCCESS);
+
+            // Sync with Booking
+            if (payment.getBooking() != null) {
+                payment.getBooking().setPaymentStatus(PaymentStatus.SUCCESS);
+                bookingRepository.save(payment.getBooking());
+            }
+
         } else if (payment.getPaymentStatus() == null) {
-            payment.setPaymentStatus(PaymentStatus.SUCCESS); // Fallback for non-razorpay (if any) or existing logic
+            payment.setPaymentStatus(PaymentStatus.SUCCESS);
+            // Sync with Booking
+            if (payment.getBooking() != null) {
+                payment.getBooking().setPaymentStatus(PaymentStatus.SUCCESS);
+                bookingRepository.save(payment.getBooking());
+            }
         }
         Payment savedPayment = paymentRepository.save(payment);
         return modelMapper.map(savedPayment, PaymentDTO.class);

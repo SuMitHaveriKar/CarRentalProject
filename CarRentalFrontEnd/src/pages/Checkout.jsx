@@ -13,6 +13,9 @@ const Checkout = () => {
     const [success, setSuccess] = useState(false);
     const [error, setError] = useState('');
 
+    // ✅ ADD: get logged-in user
+    const user = JSON.parse(localStorage.getItem("user"));
+
     useEffect(() => {
         const fetchBooking = async () => {
             try {
@@ -55,17 +58,12 @@ const Checkout = () => {
         }
 
         try {
-            const orderResponse = await api.post(
-                "/payments/create-order",
-                {
-                    amount: Number(booking.totalAmount),
-                    currency: "INR"
-                }
-            );
-
+            const orderResponse = await api.post("/payments/create-order", {
+                amount: Number(booking.totalAmount),
+                currency: "INR"
+            });
 
             const order = orderResponse.data;
-            console.log("Order received:", order);
 
             const options = {
                 key: "rzp_test_S9HcVYCQnsXY5t",
@@ -74,9 +72,17 @@ const Checkout = () => {
                 name: "Car Booking Website",
                 description: "Car Booking Payment",
                 order_id: order.id,
+
+                // ✅ FIX: Razorpay prefill
+                prefill: {
+                    name: user?.name || "",
+                    email: user?.email || "",
+                    contact: user?.phoneNumber || ""
+                },
+
                 handler: async function (response) {
                     await api.post("/payments", {
-                        bookingId: booking.id,
+                        bookingId: booking.bookingId,
                         amount: booking.totalAmount,
                         paymentMode: "ONLINE",
                         razorpayPaymentId: response.razorpay_payment_id,
@@ -88,6 +94,7 @@ const Checkout = () => {
                     setSuccess(true);
                     setTimeout(() => navigate("/my-bookings"), 3000);
                 },
+
                 theme: {
                     color: "#4f46e5"
                 }

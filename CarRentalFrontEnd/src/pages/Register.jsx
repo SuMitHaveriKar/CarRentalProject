@@ -9,7 +9,8 @@ const Register = () => {
         password: '',
         confirmPassword: '',
         role: 'CUSTOMER',
-        drivingLicence: ''
+        drivingLicence: '',
+        phoneNumber: ''
     });
     const [error, setError] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
@@ -55,7 +56,8 @@ const Register = () => {
                 email: formData.email.trim(),
                 password: formData.password,
                 role: formData.role,
-                drivingLicence: formData.drivingLicence ? formData.drivingLicence.trim() : null
+                drivingLicence: formData.drivingLicence ? formData.drivingLicence.trim() : null,
+                phoneNumber: formData.phoneNumber ? formData.phoneNumber.trim() : null
             });
 
             if (data.success) {
@@ -102,6 +104,11 @@ const Register = () => {
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">Driving License</label>
                         <input type="text" name="drivingLicence" className="w-full border border-gray-300 rounded-md px-4 py-2 text-sm focus:ring-indigo-500 focus:border-indigo-500" placeholder="Optional" onChange={handleChange} />
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                        <input type="tel" name="phoneNumber" className="w-full border border-gray-300 rounded-md px-4 py-2 text-sm focus:ring-indigo-500 focus:border-indigo-500" placeholder="+91 99999 99999" onChange={handleChange} />
                     </div>
 
                     <div>

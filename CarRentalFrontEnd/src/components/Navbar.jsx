@@ -29,7 +29,7 @@ const Navbar = () => {
                                 <Link to="/admin/dashboard" className="hover:text-indigo-400 transition-colors bg-indigo-600 px-3 py-1 rounded">Admin</Link>
                             )}
                             <div className="flex items-center space-x-4 border-l pl-4 border-gray-600">
-                                <span className="text-sm font-medium text-gray-300">{user.name}</span>
+                                <Link to="/profile" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">{user.name}</Link>
                                 <button
                                     onClick={handleLogout}
                                     className="bg-red-600 hover:bg-red-700 px-4 py-1.5 rounded transition-colors text-sm font-bold"
