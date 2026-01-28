@@ -52,6 +52,11 @@ public class BookingServiceImpl implements BookingService {
                         throw new RuntimeException("Car is not available for booking");
                 }
 
+                if (bookingRequestDTO.getPickupCity() != null &&
+                                !bookingRequestDTO.getPickupCity().equalsIgnoreCase(car.getCity())) {
+                        throw new RuntimeException("Pickup city must match the car's location: " + car.getCity());
+                }
+
                 long days = ChronoUnit.DAYS.between(
                                 bookingRequestDTO.getPickupDate(),
                                 bookingRequestDTO.getDropDate());
@@ -201,6 +206,7 @@ public class BookingServiceImpl implements BookingService {
                                                 .pickupAddress(car.getPickupAddress())
                                                 .description(car.getDescription())
                                                 .pricePerDay(car.getPricePerDay())
+                                                .seatingCapacity(car.getSeatingCapacity())
                                                 .fuelType(car.getFuelType())
                                                 .carType(car.getCarType())
                                                 .status(car.getStatus())

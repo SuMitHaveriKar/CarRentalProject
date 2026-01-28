@@ -35,6 +35,10 @@ public class User {
     @Column(unique = true)
     private String drivingLicence;
 
+    @Lob
+    @Column(columnDefinition = "LONGBLOB")
+    private byte[] drivingLicenceImage;
+
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Booking> bookings;
