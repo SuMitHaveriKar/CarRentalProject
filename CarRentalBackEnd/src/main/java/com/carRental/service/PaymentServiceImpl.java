@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.carRental.dto.PaymentDTO;
@@ -23,6 +22,7 @@ public class PaymentServiceImpl implements PaymentService {
     private final PaymentRepository paymentRepository;
     private final BookingRepository bookingRepository;
     private final ModelMapper modelMapper;
+    private final RazorpayService razorpayService;
 
     @Override
     public PaymentDTO makePayment(PaymentOrderDTO paymentOrderDTO) {
@@ -31,8 +31,21 @@ public class PaymentServiceImpl implements PaymentService {
             payment.setBooking(bookingRepository.findById(Long.valueOf(paymentOrderDTO.getBookingId()))
                     .orElseThrow(() -> new RuntimeException("Booking not found")));
         }
-        if (payment.getPaymentStatus() == null) {
-            payment.setPaymentStatus(PaymentStatus.SUCCESS); // Simulating successful payment
+
+        if (paymentOrderDTO.getRazorpayPaymentId() != null) {
+            boolean isVerified = razorpayService.verifySignature(
+                    paymentOrderDTO.getRazorpayOrderId(),
+                    paymentOrderDTO.getRazorpayPaymentId(),
+                    paymentOrderDTO.getRazorpaySignature());
+
+            if (!isVerified) {
+                throw new RuntimeException("Payment verification failed");
+            }
+            payment.setRazorpayPaymentId(paymentOrderDTO.getRazorpayPaymentId());
+            payment.setRazorpayOrderId(paymentOrderDTO.getRazorpayOrderId());
+            payment.setPaymentStatus(PaymentStatus.SUCCESS);
+        } else if (payment.getPaymentStatus() == null) {
+            payment.setPaymentStatus(PaymentStatus.SUCCESS); // Fallback for non-razorpay (if any) or existing logic
         }
         Payment savedPayment = paymentRepository.save(payment);
         return modelMapper.map(savedPayment, PaymentDTO.class);
