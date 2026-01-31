@@ -15,7 +15,7 @@ const Navbar = () => {
         <nav className="bg-gray-800 text-white p-4 shadow-md sticky top-0 z-50">
             <div className="container mx-auto flex justify-between items-center">
                 <Link to="/" className="text-2xl font-bold italic tracking-wider">
-                    RentCars
+                    Quick Drive
                 </Link>
 
                 <div className="space-x-6 flex items-center">

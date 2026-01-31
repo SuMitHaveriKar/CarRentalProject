@@ -73,7 +73,7 @@ const Checkout = () => {
                 description: "Car Booking Payment",
                 order_id: order.id,
 
-                // ✅ FIX: Razorpay prefill
+                //  FIX: Razorpay prefill
                 prefill: {
                     name: user?.name || "",
                     email: user?.email || "",
