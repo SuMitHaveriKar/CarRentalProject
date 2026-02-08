@@ -29,7 +29,8 @@ const Login = () => {
                 }
             }
         } catch (err) {
-            setError('Could not connect to the authentication server.');
+            // Display specific error message from backend if available
+            setError(err.message || 'Could not connect to the authentication server.');
         }
     };
 
@@ -38,7 +39,7 @@ const Login = () => {
             <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md border border-gray-200">
                 <div className="text-center mb-8">
                     <h2 className="text-3xl font-bold text-gray-800">Login</h2>
-                    <p className="text-gray-500 mt-2">Welcome back to RentCars</p>
+                    <p className="text-gray-500 mt-2">Welcome back to Quick Drive</p>
                 </div>
 
                 {error && <div className="bg-red-50 border border-red-100 text-red-600 p-3 rounded mb-6 text-sm text-center">{error}</div>}
@@ -66,6 +67,9 @@ const Login = () => {
                             onChange={(e) => setPassword(e.target.value)}
                             required
                         />
+                        <div className="flex justify-end mt-1">
+                            <Link to="/forgot-password" size="sm" className="text-xs text-indigo-600 hover:underline font-semibold">Forgot Password?</Link>
+                        </div>
                     </div>
 
                     <button
