@@ -1,3 +1,15 @@
+# IDE
 /.metadata/
-CarRentalFrontEnd/
 .vscode/
+*.classpath
+*.project
+*.factorypath
+*.settings/
+
+# Frontend
+CarRentalFrontEnd/node_modules/
+CarRentalFrontEnd/dist/
+CarRentalFrontEnd/build/
+
+# Backend
+CarRentalBackEnd/target/
