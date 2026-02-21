@@ -8,6 +8,12 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+// Helper object to hold user details extracted from a JWT token
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class JwtDTO {
 
     private Long userId;

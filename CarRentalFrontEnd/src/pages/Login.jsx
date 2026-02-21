@@ -10,6 +10,7 @@ const Login = () => {
     const navigate = useNavigate();
     const { login } = useAuth();
 
+    // Authenticates user and stores session token
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');

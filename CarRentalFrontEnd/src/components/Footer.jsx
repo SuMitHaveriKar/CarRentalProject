@@ -1,6 +1,7 @@
 import React from 'react';
 import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from 'react-icons/fa';
 
+// Renders the site-wide footer with links and social icons
 const Footer = () => {
     return (
         <footer className="bg-gray-900 text-white py-12 mt-auto">

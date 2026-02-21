@@ -47,6 +47,7 @@ const BookCar = () => {
     // 1. Check if they have a license.
     // 2. Validate dates (no past dates, return must be after pickup).
     // 3. Send the request to the backend.
+    // Validates inputs and submits the booking request
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');

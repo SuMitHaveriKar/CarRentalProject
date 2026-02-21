@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import jakarta.persistence.*;
 import lombok.*;
 
+// Entity representing a car booking transaction
 @Entity
 @Table(name = "bookings")
 @Data
@@ -36,12 +37,12 @@ public class Booking {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    private User user; // logged-in user from JWT
+    private User user; // The customer who made the booking
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "car_id", nullable = false)
-    private Car car;
+    private Car car; // The car being booked
 
     @OneToOne(mappedBy = "booking", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Payment payment;
+    private Payment payment; // Payment details associated with this booking
 }

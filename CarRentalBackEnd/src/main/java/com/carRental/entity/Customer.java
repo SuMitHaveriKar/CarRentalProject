@@ -7,6 +7,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+// Entity representing a Customer user, extending the base User class
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)

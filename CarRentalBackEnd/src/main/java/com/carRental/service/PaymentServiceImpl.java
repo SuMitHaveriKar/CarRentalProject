@@ -35,16 +35,16 @@ public class PaymentServiceImpl implements PaymentService {
                 throw new RuntimeException("Booking ID is required for payment.");
             }
 
-            // 1. Find Booking
+            // 1. Find the booking associated with this payment
             Booking booking = bookingRepository.findById(paymentOrderDTO.getBookingId())
                     .orElseThrow(() -> new RuntimeException("Booking not found: " + paymentOrderDTO.getBookingId()));
 
             System.out.println("DEBUG: Found booking: " + booking.getBookingId() + " current status: "
                     + booking.getBookingStatus());
 
-            // 2. Prevent Multiple Payments for same booking (Unique constraint)
-            // findByBooking_BookingId check ensures we reuse the record if user hits Pay
-            // again
+            // 2. Prevent duplicate payments for the same booking.
+            // If a payment record already exists, we update it instead of creating a new
+            // one.
             Payment payment = paymentRepository.findByBooking_BookingId(booking.getBookingId())
                     .orElse(new Payment());
 
@@ -54,7 +54,8 @@ public class PaymentServiceImpl implements PaymentService {
             payment.setPaymentDate(java.time.LocalDate.now());
             payment.setPaymentStatus(com.carRental.entity.PaymentStatus.PENDING); // Initial status
 
-            // 3. Verify Razorpay
+            // 3. Verify Razorpay Signature (Security Check)
+            // This ensures the payment actually came from Razorpay and wasn't spoofed.
             if (paymentOrderDTO.getRazorpayPaymentId() != null) {
                 System.out.println("DEBUG: Verifying Razorpay payment: " + paymentOrderDTO.getRazorpayPaymentId());
                 boolean isVerified = razorpayService.verifySignature(
@@ -80,7 +81,7 @@ public class PaymentServiceImpl implements PaymentService {
                 bookingRepository.save(booking);
                 System.out.println("DEBUG: Booking status updated to PAID");
             } else {
-                // Manual/Mock success
+                // Handle manual or test payments (if no Razorpay ID provided)
                 payment.setPaymentStatus(PaymentStatus.SUCCESS);
                 booking.setPaymentStatus(PaymentStatus.SUCCESS);
                 booking.setBookingStatus(com.carRental.entity.BookingStatus.PAID);

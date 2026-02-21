@@ -9,6 +9,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+// Response sent after successful login, containing the JWT and user details
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class AuthResponseDTO {
     private String token;
     private UserDTO user;

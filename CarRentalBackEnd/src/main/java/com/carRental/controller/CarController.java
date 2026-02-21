@@ -11,6 +11,7 @@ import com.carRental.service.CarService;
 
 import lombok.RequiredArgsConstructor;
 
+// Controller for managing car inventory, search, and details
 @RestController
 @RequestMapping("/api/cars")
 @RequiredArgsConstructor
@@ -18,11 +19,7 @@ public class CarController {
 
         private final CarService carService;
 
-        /* ================= ADD CAR (ADMIN) ================= */
-
-        // Admin Only: Adds a new car to the fleet.
-        // It handles multiparts because we need to upload the car's image along with
-        // its details.
+        // Admin Only: Add a new car with its image to the database
         @PostMapping(consumes = { "multipart/form-data" })
         public ResponseEntity<ApiResponse<CarDTO>> addCar(
                         @ModelAttribute CarDTO carDTO,
@@ -39,10 +36,7 @@ public class CarController {
                                 new ApiResponse<>("Car added successfully", true, createdCar));
         }
 
-        /* ================= GET ALL CARS ================= */
-
-        // Public: Lists all vehicles in our system.
-        // Used for the main browsing page.
+        // Get a list of all available cars for browsing
         @GetMapping
         public ResponseEntity<ApiResponse<List<CarDTO>>> getAllCars() {
 
@@ -52,12 +46,7 @@ public class CarController {
                                 new ApiResponse<>("All cars retrieved", true, cars));
         }
 
-        /* ================= GET UNIQUE CITIES ================= */
-
-        // Helper endpoint for the Search Bar.
-        // It looks at all our cars and finds all the unique cities they are located in.
-        // This populates the "Location" dropdown on the frontend so users only pick
-        // valid cities.
+        // Fetch unique cities to populate the search dropdown
         @GetMapping("/cities")
         public ResponseEntity<ApiResponse<List<String>>> getUniqueCities() {
                 List<String> cities = carService.getAllCars()
@@ -70,10 +59,7 @@ public class CarController {
                                 new ApiResponse<>("Unique cities retrieved", true, cities));
         }
 
-        /* ================= GET CAR BY ID ================= */
-
-        // Fetches details for a single specific car.
-        // Used when a user clicks on a car card to see more info or book it.
+        // Retrieve detailed information for a specific car by ID
         @GetMapping("/{carId}")
         public ResponseEntity<ApiResponse<CarDTO>> getCarById(
                         @PathVariable Long carId) {
@@ -84,13 +70,7 @@ public class CarController {
                                 new ApiResponse<>("Car found", true, car));
         }
 
-        /* ================= SEARCH ================= */
-
-        // The main search engine.
-        // Users can filter by City, Pickup Date, and Drop Date.
-        // If no dates are provided, it just filters by location (simple text match).
-        // If dates ARE provided, it checks availability logic (is the car free during
-        // these dates?).
+        // Search for cars based on location and date availability
         @GetMapping("/search")
         public ResponseEntity<ApiResponse<List<CarDTO>>> searchCars(
                         @RequestParam(required = false) String location,
@@ -98,7 +78,7 @@ public class CarController {
                         @RequestParam(required = false) java.time.LocalDate dropDate) {
 
                 if (pickupDate == null || dropDate == null) {
-                        // Simple location filter if no dates selected
+                        // If no dates are selected, filter just by location
                         if (location != null && !location.trim().isEmpty()) {
                                 List<CarDTO> allCars = carService.getAllCars();
                                 String locLower = location.toLowerCase();
@@ -114,14 +94,12 @@ public class CarController {
                         return getAllCars();
                 }
 
-                // Advanced filter: Checking effective availability in the database
+                // Filter cars that are available during the requested dates
                 List<CarDTO> cars = carService.searchAvailableCars(location, pickupDate, dropDate);
                 return ResponseEntity.ok(new ApiResponse<>("Available cars found", true, cars));
         }
 
-        /* ================= DELETE CAR (ADMIN) ================= */
-
-        // Admin Only: Removes a car from the system.
+        // Admin Only: Remove a car from the fleet
         @DeleteMapping("/{carId}")
         public ResponseEntity<ApiResponse<Void>> deleteCar(@PathVariable Long carId) {
                 try {

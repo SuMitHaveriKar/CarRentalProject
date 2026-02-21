@@ -4,9 +4,10 @@ import { getCarImage } from '../services/carService';
 import { FaGasPump, FaMapMarkerAlt, FaUsers } from 'react-icons/fa';
 import { useAuth } from '../context/AuthContext';
 
+// Displays individual car details in a card format
 const CarCard = ({ car }) => {
     const { user } = useAuth();
-    // Keep the fix for defensive check in pricePerDay
+    // Determine the image source: either a base64 string from the database or a placeholder
     const imageUrl = car.image
         ? `data:image/jpeg;base64,${car.image}`
         : getCarImage(car.brand);

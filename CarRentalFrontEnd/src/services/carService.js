@@ -9,6 +9,7 @@ export const getAllCars = async () => {
     }
 };
 
+// Searches for cars based on criteria (location, dates, etc.)
 export const searchCars = async (searchParams) => {
     try {
         const response = await api.get('/cars/search', { params: searchParams });
@@ -18,7 +19,7 @@ export const searchCars = async (searchParams) => {
     }
 };
 
-// Mock function to get car image
+// Returns a mock image URL for a car brand (placeholder logic)
 export const getCarImage = (brand) => {
     // Return a relevant placeholder image based on brand or default
     const images = {
@@ -33,6 +34,7 @@ export const getCarImage = (brand) => {
     return images[brand] || images['default'];
 };
 
+// Adds a new car to the fleet (Admin only, handles file upload)
 export const addCar = async (carData) => {
     try {
         // carData should be FormData object

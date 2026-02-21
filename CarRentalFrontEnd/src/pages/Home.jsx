@@ -22,7 +22,7 @@ const Home = () => {
         dropDate: ''
     });
 
-    // When the page loads, we fetch all cars and valid cities from the backend.
+    // Fetches initial data: all cars and available cities
     useEffect(() => {
         const fetchHomeData = async () => {
             try {
@@ -61,6 +61,8 @@ const Home = () => {
 
     // The logic to filter cars based on user input.
     // If they select dates, we need to ask the backend "Which cars are free?".
+    // Filters cars based on user search criteria
+    // If dates are selected, queries the backend for availability
     const handleSearch = async (e) => {
         e.preventDefault();
         setLoading(true);

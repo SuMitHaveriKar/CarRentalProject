@@ -17,33 +17,34 @@ import Profile from './pages/Profile';
 import BookingDetails from './pages/BookingDetails';
 import ForgotPassword from './pages/ForgotPassword';
 
+// Main application component managing routes and global auth context
 function App() {
   return (
-    // AuthProvider wraps the whole app so that every page knows if the user is logged in or not.
+    // Wraps the application to provide authentication state to all components
     <AuthProvider>
       <div className="min-h-screen bg-gray-50">
         <Navbar />
-        
-        {/* These are our pages and their corresponding URLs */}
+
+        {/* Define routes for public, protected, and admin pages */}
         <Routes>
-          {/* Public Pages */}
+          {/* Public Routes */}
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/cars" element={<Cars />} />
-          
-          {/* Protected / User Specific Pages */}
+
+          {/* User Protected Routes */}
           <Route path="/book/:carId" element={<BookCar />} />
           <Route path="/booking/:bookingId" element={<BookingDetails />} />
           <Route path="/my-bookings" element={<MyBookings />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/checkout/:bookingId" element={<Checkout />} />
-          
-          {/* Admin Only Page */}
+
+          {/* Admin Protected Routes */}
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
         </Routes>
-        
+
         <Footer />
       </div>
     </AuthProvider>

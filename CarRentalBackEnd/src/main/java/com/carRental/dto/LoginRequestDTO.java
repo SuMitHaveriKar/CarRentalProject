@@ -6,6 +6,11 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+/// Data transfer object for user login credentials
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class LoginRequestDTO {
 
     private String email;

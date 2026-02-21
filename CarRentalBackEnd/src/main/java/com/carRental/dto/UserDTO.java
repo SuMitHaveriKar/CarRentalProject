@@ -3,6 +3,7 @@ package com.carRental.dto;
 import com.carRental.entity.Role;
 import lombok.*;
 
+// Data transfer object for user information sent to the frontend
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

@@ -1,3 +1,4 @@
+// Initiates a payment flow using Razorpay's checkout script
 export async function initiatePayment(amount) {
   try {
     const response = await fetch(
@@ -17,7 +18,7 @@ export async function initiatePayment(amount) {
     const order = await response.json();
 
     const options = {
-      key: "rzp_test_S9HcVYCQnsXY5t",
+      key: "rzp_test_S9HcVYCQnsXY5t", // This should be moved to environment variables for security
       amount: order.amount,
       currency: order.currency,
       name: "Car Booking Website",

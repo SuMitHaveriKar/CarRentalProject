@@ -10,6 +10,11 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+// Data transfer object for returning full booking details to the client
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class BookingResponseDTO {
 
     private Long bookingId;

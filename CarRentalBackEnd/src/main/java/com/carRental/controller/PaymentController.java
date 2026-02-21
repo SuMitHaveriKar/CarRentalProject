@@ -14,6 +14,7 @@ import com.carRental.service.PaymentService;
 import com.carRental.service.RazorpayService;
 import com.razorpay.Order;
 
+// Controller to handle payment processing via Razorpay
 @RestController
 @RequestMapping("/api/payments")
 @CrossOrigin(origins = "http://localhost:5173")
@@ -25,6 +26,7 @@ public class PaymentController {
     @Autowired
     private PaymentService paymentService;
 
+    // Generate a new Razorpay order for the transaction
     @PostMapping("/create-order")
     public ResponseEntity<String> createOrder(@RequestBody Map<String, Object> data) {
         try {
@@ -41,6 +43,7 @@ public class PaymentController {
         }
     }
 
+    // Confirm the payment and record it in our database
     @PostMapping
     public ResponseEntity<ApiResponse<PaymentDTO>> makePayment(
             @RequestBody PaymentOrderDTO paymentOrderDTO) {
@@ -51,6 +54,7 @@ public class PaymentController {
                 new ApiResponse<>("Payment processed successfully", true, createdPayment));
     }
 
+    // Fetch payment details for a specific booking
     @GetMapping("/booking/{bookingId}")
     public ResponseEntity<ApiResponse<PaymentDTO>> getPaymentByBookingId(
             @PathVariable Long bookingId) {

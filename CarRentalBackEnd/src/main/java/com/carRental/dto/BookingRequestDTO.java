@@ -7,6 +7,11 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+// Data transfer object for creating a new booking request
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class BookingRequestDTO {
 
     private Long carId;

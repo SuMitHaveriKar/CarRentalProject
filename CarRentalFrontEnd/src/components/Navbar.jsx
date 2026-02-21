@@ -2,13 +2,15 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
+// Main navigation bar component
 const Navbar = () => {
-    const { user, logout } = useAuth(); // Hook to get current user state
+    const { user, logout } = useAuth(); // Access authentication context
     const navigate = useNavigate();
 
+    // Handles user logout and redirects to login page
     const handleLogout = () => {
         logout();
-        navigate('/login'); // Redirect to login page after signing out
+        navigate('/login');
     };
 
     return (
@@ -22,12 +24,12 @@ const Navbar = () => {
                     <Link to="/" className="hover:text-indigo-400 transition-colors">Home</Link>
                     <Link to="/cars" className="hover:text-indigo-400 transition-colors">Cars</Link>
 
-                    {/* Conditional Rendering: Show specific links if user is logged in */}
+                    {/* Conditional rendering based on authentication status */}
                     {user ? (
                         <>
                             <Link to="/my-bookings" className="hover:text-indigo-400 transition-colors">My Bookings</Link>
 
-                            {/* Only show Admin Dashboard link if the user is an ADMIN */}
+                            {/* Show Admin Dashboard link only for admin users */}
                             {user.role === 'ADMIN' && (
                                 <Link to="/admin/dashboard" className="hover:text-indigo-400 transition-colors bg-indigo-600 px-3 py-1 rounded">Admin</Link>
                             )}

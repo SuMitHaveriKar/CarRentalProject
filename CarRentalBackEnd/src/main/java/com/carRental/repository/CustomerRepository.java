@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import com.carRental.entity.Customer;
 
+// Repository for managing Customer entities
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
 }

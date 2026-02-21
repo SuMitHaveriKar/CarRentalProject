@@ -10,9 +10,11 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
+// Centralized exception handling to return consistent error responses
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    // Handles our custom application exceptions
     @ExceptionHandler(CustomException.class)
     public ResponseEntity<ApiResponse<Void>> handleCustomException(CustomException e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -50,6 +52,7 @@ public class GlobalExceptionHandler {
                 .body(new ApiResponse<>("Invalid credentials", false, null));
     }
 
+    // Catch-all handler for any other unexpected errors
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse<Void>> handleException(Exception e) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

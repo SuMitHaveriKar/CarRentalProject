@@ -12,6 +12,7 @@ import com.carRental.entity.CarStatus;
 import com.carRental.entity.CarType;
 import com.carRental.entity.FuelType;
 
+// Repository for Car inventory management and search operations
 @Repository
 public interface CarRepository extends JpaRepository<Car, Long> {
 
@@ -23,6 +24,8 @@ public interface CarRepository extends JpaRepository<Car, Long> {
 
     List<Car> findByCarType(CarType carType);
 
+    // Custom query to find cars available in a specific city for a given date range
+    // Excludes cars that are already booked and confirmed for overlapping dates
     @Query("""
             SELECT c FROM Car c
             WHERE (:city IS NULL OR LOWER(c.city) LIKE LOWER(CONCAT('%', :city, '%')))

@@ -10,6 +10,7 @@ const MyBookings = () => {
         fetchBookings();
     }, []);
 
+    // Fetches the current user's booking history
     const fetchBookings = async () => {
         try {
             const data = await getMyBookings();

@@ -17,6 +17,7 @@ import com.carRental.dto.BookingRequestDTO;
 import com.carRental.dto.BookingResponseDTO;
 import com.carRental.service.BookingService;
 
+// Controller to manage car bookings and their statuses
 @RestController
 @RequestMapping("/api/bookings")
 public class BookingController {
@@ -24,8 +25,7 @@ public class BookingController {
     @Autowired
     private BookingService bookingService;
 
-    // Creates a new booking request.
-    // The user selects a car and dates, and we verify if it's possible.
+    // Create a new booking request
     @PostMapping
     public ResponseEntity<ApiResponse<BookingResponseDTO>> createBooking(
             @RequestBody BookingRequestDTO bookingRequestDTO) {
@@ -34,7 +34,7 @@ public class BookingController {
                 .ok(new ApiResponse<>("Booking created successfully", true, createdBooking));
     }
 
-    // Fetches a specific booking.
+    // API to fetch booking details by ID
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<BookingResponseDTO>> getBookingById(
             @PathVariable Long id) {
@@ -45,23 +45,21 @@ public class BookingController {
         return ResponseEntity.status(404).body(new ApiResponse<>("Booking not found", false, null));
     }
 
-    // Admin: View all bookings in the system to manage them.
+    // Admin: Fetch all bookings across the system
     @GetMapping
     public ResponseEntity<ApiResponse<List<BookingResponseDTO>>> getAllBookings() {
         List<BookingResponseDTO> bookings = bookingService.getAllBookings();
         return ResponseEntity.ok(new ApiResponse<>("All bookings retrieved", true, bookings));
     }
 
-    // Customer: "My Bookings" page.
-    // Shows only the bookings belonging to the currently logged-in user.
+    // Customer: Get list of bookings for the currently logged-in user
     @GetMapping("/my-bookings")
     public ResponseEntity<ApiResponse<List<BookingResponseDTO>>> getBookingsForLoggedInUser() {
         List<BookingResponseDTO> bookings = bookingService.getBookingsForLoggedInUser();
         return ResponseEntity.ok(new ApiResponse<>("Your bookings retrieved", true, bookings));
     }
 
-    // Admin: Approve or Reject a booking.
-    // Changes the status from PENDING to CONFIRMED (or REJECTED).
+    // Admin: Update the status of a booking (e.g., Approve/Reject)
     @PutMapping("/{id}/status/{status}")
     public ResponseEntity<ApiResponse<BookingResponseDTO>> updateBookingStatus(
             @PathVariable Long id, @PathVariable String status) {
@@ -74,8 +72,7 @@ public class BookingController {
                 .body(new ApiResponse<>("Failed to update status", false, null));
     }
 
-    // User/Admin: Cancel a booking.
-    // If plans change, this sets the status to CANCELLED.
+    // Cancel an existing booking
     @PutMapping("/{id}/cancel")
     public ResponseEntity<ApiResponse<BookingResponseDTO>> cancelBooking(
             @PathVariable Long id) {

@@ -7,6 +7,7 @@ const Cars = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+    // Load all cars on component mount
     useEffect(() => {
         const fetchCars = async () => {
             try {

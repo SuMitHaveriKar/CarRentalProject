@@ -16,6 +16,7 @@ const Checkout = () => {
     // ✅ ADD: get logged-in user
     const user = JSON.parse(localStorage.getItem("user"));
 
+    // Fetch booking details on mount to calculate payment
     useEffect(() => {
         const fetchBooking = async () => {
             try {
@@ -32,6 +33,7 @@ const Checkout = () => {
         fetchBooking();
     }, [bookingId]);
 
+    // Dynamically loads the Razorpay checkout script
     const loadRazorpay = () => {
         return new Promise((resolve) => {
             if (window.Razorpay) {
@@ -46,6 +48,7 @@ const Checkout = () => {
         });
     };
 
+    // Initiates the payment process with Razorpay
     const handlePayment = async () => {
         setProcessing(true);
         setError('');
@@ -73,7 +76,7 @@ const Checkout = () => {
                 description: "Car Booking Payment",
                 order_id: order.id,
 
-                //  FIX: Razorpay prefill
+                //  Razorpay prefill with user data
                 prefill: {
                     name: user?.name || "",
                     email: user?.email || "",

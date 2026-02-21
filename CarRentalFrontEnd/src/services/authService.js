@@ -22,6 +22,7 @@ export const loginUser = async ({ email, password }) => {
     }
 };
 
+// Registers a new user, trimming whitespace from input
 export const registerUser = async (userData) => {
     try {
         // Cleaning userData before transmission
@@ -52,9 +53,7 @@ export const getPendingAdmins = async () => {
     }
 };
 
-/**
- * Approve a specific admin by ID.
- */
+// Approves a pending admin account (Admin only)
 export const approveAdmin = async (adminId) => {
     try {
         const response = await api.post(`/admin/approve-admin/${adminId}`);
@@ -64,6 +63,7 @@ export const approveAdmin = async (adminId) => {
     }
 };
 
+// Uploads the user's driving license image
 export const uploadLicense = async (userId, file) => {
     try {
         const formData = new FormData();

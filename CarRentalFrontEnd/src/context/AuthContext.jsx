@@ -2,7 +2,9 @@ import React, { createContext, useState, useContext, useEffect } from 'react';
 
 const AuthContext = createContext();
 
+// Provides authentication state (user, token) to the entire application
 export const AuthProvider = ({ children }) => {
+    // Initialize user state from local storage to persist login across refreshes
     const [user, setUser] = useState(() => {
         const savedUser = localStorage.getItem('user');
         return savedUser ? JSON.parse(savedUser) : null;
@@ -22,6 +24,7 @@ export const AuthProvider = ({ children }) => {
         }
     }, [token]);
 
+    // Logs in the user, saving their data and token to local storage
     const login = (userData, authToken) => {
         setUser(userData);
         setToken(authToken);
@@ -29,6 +32,7 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem('user', JSON.stringify(userData));
     };
 
+    // Logs out the user, clearing all authentication data
     const logout = () => {
         setUser(null);
         setToken(null);

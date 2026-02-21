@@ -13,6 +13,7 @@ const ForgotPassword = () => {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
+    // Sends an OTP to the provided email address
     const handleSendOtp = async (e) => {
         e.preventDefault();
         setLoading(true);
@@ -28,6 +29,7 @@ const ForgotPassword = () => {
         }
     };
 
+    // Verifies the user-entered OTP with the backend
     const handleVerifyOtp = async (e) => {
         e.preventDefault();
         setLoading(true);
@@ -46,6 +48,7 @@ const ForgotPassword = () => {
         }
     };
 
+    // Resets the password if the OTP was verified and passwords match
     const handleResetPassword = async (e) => {
         e.preventDefault();
         if (newPassword !== confirmPassword) {

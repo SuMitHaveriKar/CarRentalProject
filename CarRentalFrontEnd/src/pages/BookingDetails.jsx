@@ -12,6 +12,7 @@ const BookingDetails = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
+    // Load booking and payment details on component mount
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -46,6 +47,7 @@ const BookingDetails = () => {
         fetchData();
     }, [bookingId]);
 
+    // Cancels the booking if confirmed by the user
     const handleCancelBooking = async () => {
         if (!window.confirm("Are you sure you want to cancel this booking?")) return;
         try {

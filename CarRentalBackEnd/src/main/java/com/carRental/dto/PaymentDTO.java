@@ -14,6 +14,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+// Data transfer object for payment details returned to the frontend
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class PaymentDTO {
     private Long id;
     private Long bookingId;

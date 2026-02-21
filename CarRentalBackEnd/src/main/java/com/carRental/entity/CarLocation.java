@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+// Entity to store location details for a specific car
 @Entity
 @Table(name = "car_locations")
 @Data

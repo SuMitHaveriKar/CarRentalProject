@@ -17,6 +17,7 @@ const Profile = () => {
         }
     };
 
+    // Handles the license image upload process
     const handleUpload = async () => {
         if (!file) {
             setMessage("Please select a file first.");

@@ -17,6 +17,7 @@ public class LocationServiceImpl implements LocationService {
     @Autowired
     private CarRepository carRepository;
 
+    // Links a location to a specific car using its ID
     @Override
     public CarLocation addLocation(Long carId, CarLocation location) {
         Car car = carRepository.findById(carId).orElseThrow(() -> new RuntimeException("Car not found"));
@@ -24,6 +25,7 @@ public class LocationServiceImpl implements LocationService {
         return locationRepository.save(location);
     }
 
+    // Updates an existing car's location details, or creates a new one if missing
     @Override
     public CarLocation updateLocation(Long carId, CarLocation location) {
         CarLocation existingLocation = locationRepository.findByCar_CarId(carId).orElse(null);

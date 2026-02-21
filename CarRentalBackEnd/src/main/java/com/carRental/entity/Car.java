@@ -6,6 +6,7 @@ import lombok.*;
 
 import java.util.List;
 
+// Entity representing a car in the rental fleet
 @Entity
 @Table(name = "cars")
 @Data
@@ -20,7 +21,7 @@ public class Car {
 
     @Lob
     @Column(columnDefinition = "LONGBLOB")
-    private byte[] image;
+    private byte[] image; // Stores car image directly in DB
 
     @Column(nullable = false)
     private String brand;
@@ -39,7 +40,7 @@ public class Car {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private CarStatus status; // AVAILABLE / BOOKED
+    private CarStatus status; // Track if car is available or booked
 
     @Column(length = 1000)
     private String description;

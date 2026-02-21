@@ -23,6 +23,7 @@ const Register = () => {
         });
     };
 
+    // Validates form input and registers a new user
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');

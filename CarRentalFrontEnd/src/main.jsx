@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom'
 import './index.css'
 import App from './App.jsx'
 
+// Entry point: mounts the React application to the DOM
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>

@@ -6,6 +6,7 @@ import java.util.List;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+// Base entity representing a user in the system
 @Entity
 @Table(name = "users")
 @Data
@@ -33,24 +34,23 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Role role; // ROLE_ADMIN / ROLE_USER
+    private Role role; // Determines permissions (ADMIN or CUSTOMER)
 
     @Column(unique = true)
     private String drivingLicence;
 
     @Lob
     @Column(columnDefinition = "LONGBLOB")
-    private byte[] drivingLicenceImage;
+    private byte[] drivingLicenceImage; // Stores license image directly in DB
 
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Booking> bookings;
 
     /**
-     * Indicates whether this user account is active/enabled.
-     * For normal customers this is always true.
-     * For admins, new registrations start as inactive and must be
-     * approved by an existing admin via the admin dashboard.
+     * Indicates if the user account is active.
+     * Customers are active by default.
+     * Admins require approval from an existing admin.
      */
     @Column(nullable = false)
     @Builder.Default

@@ -5,6 +5,7 @@ import com.carRental.entity.PaymentMode;
 import com.carRental.entity.PaymentStatus;
 import lombok.Data;
 
+// Data transfer object for processing a payment order with Razorpay details
 @Data
 public class PaymentOrderDTO {
     private Long bookingId;

@@ -13,6 +13,7 @@ import com.carRental.dto.ApiResponse;
 import com.carRental.dto.UserDTO;
 import com.carRental.service.UserService;
 
+// Controller for user-specific actions, like profile updates
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -20,6 +21,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    // Upload the user's driving license image for verification
     @PostMapping("/{id}/license-image")
     public ResponseEntity<ApiResponse<UserDTO>> uploadLicenseImage(
             @PathVariable Long id,

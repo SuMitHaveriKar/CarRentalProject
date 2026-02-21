@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.*;
 
+// Data transfer object for new user registration
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

@@ -5,17 +5,17 @@ import { getPendingAdmins, approveAdmin } from '../services/authService';
 import { FaPlus, FaTrash, FaCheck, FaTimes, FaMapMarkerAlt } from 'react-icons/fa';
 
 const AdminDashboard = () => {
-    // We use tabs to switch between different admin views
-    const [activeTab, setActiveTab] = useState('cars'); // 'cars', 'bookings', or 'admins'
+    // State to toggle between Cars, Bookings, and Admin Requests tabs
+    const [activeTab, setActiveTab] = useState('cars');
 
-    // Data states
+    // Data storage for the dashboard tables
     const [cars, setCars] = useState([]);
     const [bookings, setBookings] = useState([]);
     const [pendingAdmins, setPendingAdmins] = useState([]);
 
-    // UI states
+    // UI state management for loading indicators and modals
     const [loading, setLoading] = useState(true);
-    const [viewLicense, setViewLicense] = useState(null); // To show the license image modal
+    const [viewLicense, setViewLicense] = useState(null);
 
     const [showAddModal, setShowAddModal] = useState(false);
     const [carForm, setCarForm] = useState({
@@ -31,6 +31,7 @@ const AdminDashboard = () => {
         else if (activeTab === 'admins') fetchPendingAdmins();
     }, [activeTab]);
 
+    // Fetches the list of all available cars
     const fetchCars = async () => {
         setLoading(true);
         try {
@@ -49,6 +50,7 @@ const AdminDashboard = () => {
         finally { setLoading(false); }
     };
 
+    // Fetches pending admin approval requests
     const fetchPendingAdmins = async () => {
         setLoading(true);
         try {
@@ -74,6 +76,7 @@ const AdminDashboard = () => {
         }
     };
 
+    // Submits the new car form data including the image file
     const handleAddCar = async (e) => {
         e.preventDefault();
         const formData = new FormData();

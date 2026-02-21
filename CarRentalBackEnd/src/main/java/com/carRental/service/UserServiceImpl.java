@@ -21,6 +21,8 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
 
+    // Uploads the driving license image.
+    // This is a critical step before a user can make a booking.
     @Override
     public UserDTO uploadLicenseImage(Long userId, MultipartFile file) throws Exception {
         User user = userRepository.findById(userId)

@@ -6,6 +6,7 @@ import lombok.*;
 
 import java.time.LocalDate;
 
+// Entity representing a payment transaction
 @Entity
 @Table(name = "payments")
 @Data
@@ -36,7 +37,7 @@ public class Payment {
     @Enumerated(EnumType.STRING)
     private PaymentMode paymentMode;
 
-    // Razorpay fields
+    // Fields specific to Razorpay integration
     private String razorpayOrderId;
     private String razorpayPaymentId;
 }

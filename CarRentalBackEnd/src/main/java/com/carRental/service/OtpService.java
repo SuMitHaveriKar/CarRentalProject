@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
+// Service for handling OTP generation and verification
 @Service
 public class OtpService {
 
@@ -17,6 +18,7 @@ public class OtpService {
 
     public String generateOtp(String email) {
         String otp = String.format("%06d", new Random().nextInt(999999));
+        // OTP valid for 5 minutes
         OtpData otpData = new OtpData(otp, LocalDateTime.now().plusMinutes(OTP_EXPIRY_MINUTES), 0);
         otpStorage.put(email, otpData);
         return otp;
@@ -50,10 +52,12 @@ public class OtpService {
         }
     }
 
+    // Clears the OTP from storage after successful use
     public void clearOtp(String email) {
         otpStorage.remove(email);
     }
 
+    // Checks if the OTP session is valid for password reset
     public boolean isValidForReset(String email, String otp) {
         OtpData otpData = otpStorage.get(email);
         return otpData != null &&
